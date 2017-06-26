@@ -1,0 +1,126 @@
+// I (Finley) wrote this whole page
+
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <title>Project One</title>
+
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
+
+  </head>
+
+  <body>
+  	<div id="forms">
+    <form id="account-form">
+          <label for="first-name-input">First Name:</label>
+          <input type="text" id="first-name-input">
+          <label for="last-name-input">Last Name:</label>
+          <input type="text" id="last-name-input">
+          <br/>
+          <label for="city-input">City:</label>
+          <input type="text" id="city-input">
+          <label for="state-input">State:</label>
+          <input type="text" id="state-input">
+          <br/>
+          <label for="finance-input">Financial interests (tickers):</label>
+          <input type="text" id="finance-input-one">
+          <input type="text" id="finance-input-two">
+          <input type="text" id="finance-input-three">
+          <br/>
+          <label for="news-input">News + events (keywords):</label>
+          <input type="text" id="news-input-one">
+          <input type="text" id="news-input-two">
+          <input type="text" id="news-input-three">
+          <br/>
+          <label for="user-name-input">User Name:</label>
+          <input type="text" id="user-name-input">
+          <label for="password-input">Password:</label>
+          <input type="text" id="password-input">
+          <input id="add-account" type="submit" value="Submit you're account!">
+    </form>
+
+	<br/>
+	<br/>
+	
+    <form>
+    	  <label for="user-name-signin-input">User Name:</label>
+          <input type="text" id="user-name-signin-input">
+    	  <label for="password-signin-input">Password:</label>
+          <input type="text" id="password-signin-input">
+          <input id="signin" type="submit" value="Sign in!">
+    </form>
+    </div>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    
+    <script type="text/javascript">
+
+		var config = {
+	    	apiKey: "AIzaSyCvKr8XCnaCGcSrSDC5Fy7AyALsa8CToEk",
+	    	authDomain: "projectone-b4271.firebaseapp.com",
+	    	databaseURL: "https://projectone-b4271.firebaseio.com",
+	    	projectId: "projectone-b4271",
+	    	storageBucket: "projectone-b4271.appspot.com",
+	    	messagingSenderId: "469463387856"
+	  	};
+	  	firebase.initializeApp(config);
+      	var database = firebase.database();
+
+      	$(document).ready(function() {
+      		var imageUrl = 'https://i.imgur.com/aZnZUjj.jpg';
+      		$('body').css('background-image', 'url(' + imageUrl + ')');
+      	});
+
+      	$("#signin").on("click", function(event) {
+      		event.preventDefault();
+      		var userName = $("#user-name-signin-input").val().trim();
+      		var password = $("#password-signin-input").val().trim();
+
+      		database.ref(userName).on('value', function(snap){
+      			var realPassword = snap.val().password;
+      			if (realPassword === password) {
+      				window.location.href="file:///Users/Luca/Downloads/Group-Project-master%202/index.html#"+userName
+      			}
+      			else {
+      				alert("Go to traffic, Hacker!")
+      			}
+      		})
+      	});
+
+      	$("#add-account").on("click", function(event) {
+      		event.preventDefault();
+      		var firstName = $("#first-name-input").val().trim();
+      		var lastName = $("#last-name-input").val().trim();
+      		var city = $("#city-input").val().trim();
+      		var state = $("#state-input").val().trim();
+      		var finance = [$("#finance-input-one").val().trim().toUpperCase(), $("#finance-input-two").val().trim().toUpperCase(), $("#finance-input-three").val().trim().toUpperCase()];
+      		var news = [$("#news-input-one").val().trim(), $("#news-input-two").val().trim(), $("#news-input-three").val().trim()];
+      		var userName = $("#user-name-input").val().trim();
+      		var password = $("#password-input").val().trim();
+
+      		console.log(finance)
+      		console.log(news)
+
+      		database.ref(userName).set({
+      			firstName: firstName,
+      			lastName: lastName,
+      			city: city,
+      			state: state,
+      			finance: finance,
+      			news: news,
+      			userName: userName,
+      			password: password
+      		})
+      		alert("You giant piece of success!");
+      		window.location.href="file:///Users/Luca/Downloads/Group-Project-master%202/index.html#"+userName
+      	});
+
+    </script>
+
+  </body>
+
+</html>
